@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.1'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
+    // PDF Processing
+    implementation 'org.apache.pdfbox:pdfbox:2.0.29'
+    
+    // Word to PDF
+    implementation('org.docx4j:docx4j-JAXB-ReferenceImpl:11.4.9') {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    implementation 'org.docx4j:docx4j-export-fo:11.4.9'
+    
+    // Utilities
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // Development
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Task para ejecutar la aplicación
+tasks.named('bootRun') {
+    systemProperties = System.properties
+}
+
+// Configuración del JAR
+tasks.named('bootJar') {
+    archiveFileName = 'converson-web-1.0.0.jar'
+}
+
+// Asegurar encoding UTF-8
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

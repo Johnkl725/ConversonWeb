@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Archivos a PDF - Web</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">📄 Conversor de Archivos a PDF</h1>
+                <p class="subtitle">Convierte Word e imágenes a PDF de forma rápida y profesional</p>
+            </div>
+        </header>
+
+        <!-- Conversion Type Selection -->
+        <section class="conversion-type-section">
+            <h2 class="section-title">Tipo de Conversión</h2>
+            <div class="conversion-types">
+                <div class="type-group">
+                    <h3>Conversión Individual</h3>
+                    <label class="radio-card">
+                        <input type="radio" name="conversionType" value="WORD_TO_PDF" checked>
+                        <div class="card-content">
+                            <span class="icon">📝</span>
+                            <span class="label">Word a PDF</span>
+                            <span class="description">Un PDF por cada archivo .doc/.docx</span>
+                        </div>
+                    </label>
+                    
+                    <label class="radio-card">
+                        <input type="radio" name="conversionType" value="IMAGE_TO_PDF">
+                        <div class="card-content">
+                            <span class="icon">🖼️</span>
+                            <span class="label">Imagen a PDF</span>
+                            <span class="description">Un PDF por cada imagen</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="type-group">
+                    <h3>Combinar en un Solo PDF</h3>
+                    <label class="radio-card highlight">
+                        <input type="radio" name="conversionType" value="MERGE_WORDS_TO_PDF">
+                        <div class="card-content">
+                            <span class="icon">📚</span>
+                            <span class="label">Combinar Words</span>
+                            <span class="description">⚡ Procesamiento paralelo</span>
+                        </div>
+                    </label>
+                    
+                    <label class="radio-card highlight">
+                        <input type="radio" name="conversionType" value="MERGE_IMAGES_TO_PDF">
+                        <div class="card-content">
+                            <span class="icon">🎨</span>
+                            <span class="label">Combinar Imágenes</span>
+                            <span class="description">⚡ Procesamiento paralelo</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Upload Area -->
+        <section class="upload-section">
+            <div class="drop-zone" id="dropZone">
+                <div class="drop-zone-content">
+                    <div class="upload-icon">📁</div>
+                    <h3>Arrastra archivos aquí</h3>
+                    <p>o haz clic para seleccionar</p>
+                    <button class="btn-select" id="selectBtn">Seleccionar Archivos</button>
+                    <input type="file" id="fileInput" multiple hidden>
+                </div>
+            </div>
+            
+            <div class="file-info">
+                <span id="fileCount">0 archivos seleccionados</span>
+            </div>
+        </section>
+
+        <!-- Selected Files Table -->
+        <section class="files-section" id="filesSection" style="display: none;">
+            <h2 class="section-title">Archivos Seleccionados</h2>
+            <div class="table-container">
+                <table class="files-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tamaño</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filesTableBody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="actions-section" id="actionsSection" style="display: none;">
+            <button class="btn btn-primary" id="convertBtn">
+                <span class="btn-icon">🚀</span>
+                Convertir a PDF
+            </button>
+            <button class="btn btn-secondary" id="clearBtn">
+                <span class="btn-icon">🗑️</span>
+                Limpiar Todo
+            </button>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section" id="progressSection" style="display: none;">
+            <h2 class="section-title">Progreso de Conversión</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+            <div class="progress-log" id="progressLog"></div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection" style="display: none;">
+            <h2 class="section-title">Resultados</h2>
+            <div class="results-summary" id="resultsSummary"></div>
+            <div class="results-files" id="resultsFiles"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Conversor de Archivos a PDF v1.0 | Desarrollado con Spring Boot</p>
+        </footer>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
